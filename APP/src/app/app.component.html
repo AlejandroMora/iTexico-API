@@ -1,0 +1,94 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="row">
+    <div class="col-md-3">
+        <form>
+            <div class="form-row">
+                <div class="col-md-12">
+                    <input type="text" name="title" id="title" [(ngModel)]="newTask.title" placeholder="Title" class="form-control">
+                </div>
+                <div class="col-md-12">
+                    <input name="description" id="description" [(ngModel)]="newTask.description" placeholder="Description" class="form-control" id="description">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary" (click)="create()">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-9">
+        <div class="tasks" *ngIf="taskList">
+            <table class="table">
+                <thead class="h">
+                    <tr class="h">
+                        <th class="h">Status</th>
+                        <th class="h">Title</th>
+                        <th class="h">Description</th>
+                        <th class="h">Date</th>
+                        <th class="h">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <label>Pendientes</label>
+                    </tr>
+                    <tr class="task" (dblclick)="update(task)" *ngFor="let task of taskList">
+                        <td class="o" *ngIf="!task.status">
+                            <button class="btn btn-outline-secondary" [ngClass]="{'active':task.status}" (click)="done(task)">
+                                <i  class="fa fa-check" checked autocomplete="off"></i>
+                            </button>
+                        </td>
+                        <ng-container *ngIf="!task.status">
+                            <td>{{task.title}}</td>
+                            <td>{{task.description}}</td>
+                            <td>{{task.date | date}}</td>
+                        </ng-container>
+                        <ng-template *ngIf="!task.status">
+                            <td><input type="text" name="title" id="title" (keypress)="submitTask($event, task)" [(ngModel)]="task.title" placeholder="Title" class="form-control"></td>
+                            <td><input type="text" name="description" id="description" (keypress)="submitTask($event, task)" [(ngModel)]="task.description" placeholder="Description"
+                                class="form-control"></td>
+                            <td>{{task.date | date}}</td>
+                        </ng-template>
+                        <td class="o" *ngIf="!task.status">
+                            <button class="btn btn-outline-primary" (click)="update(task)">
+                                <i  class="fa fa-pencil"></i>
+                            </button>
+                            <button class="btn btn-outline-danger" (click)="delete(task)">
+                                <i  class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <p></p>
+                        <label>Finalizadas</label>
+                    </tr>
+                    <tr class="task" (dblclick)="update(task)" *ngFor="let task of taskList">
+                        <td class="o" *ngIf="task.status">
+                            <button class="btn btn-outline-secondary" [ngClass]="{'active':task.status}" (click)="done(task)">
+                                <i  class="fa fa-check" checked autocomplete="off"></i>
+                            </button>
+                        </td>
+                        <ng-container *ngIf="task.status">
+                            <td>{{task.title}}</td>
+                            <td>{{task.description}}</td>
+                            <td>{{task.date | date}}</td>
+                        </ng-container>
+                        <ng-template *ngIf="task.status">
+                            <td><input type="text" name="title" id="title" (keypress)="submitTask($event, task)" [(ngModel)]="task.title" placeholder="Title" class="form-control"></td>
+                            <td><input type="text" name="description" id="description" (keypress)="submitTask($event, task)" [(ngModel)]="task.description" placeholder="Description"
+                                class="form-control"></td>
+                            <td>{{task.date | date}}</td>
+                        </ng-template>
+                        <td class="o" *ngIf="task.status">
+                            <button class="btn btn-outline-primary" (click)="update(task)">
+                                <i  class="fa fa-pencil"></i>
+                            </button>
+                            <button class="btn btn-outline-danger" (click)="delete(task)">
+                                <i  class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
